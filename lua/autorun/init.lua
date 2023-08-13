@@ -14,6 +14,7 @@ if SERVER then
 	print('{Sending CLIENT files to clientside...}')
 	for k, v in pairs(file.Find('teralib/client/*', 'LUA')) do
 		AddCSLuaFile('teralib/client/' .. v)
+		print(v)
 	end
 	print('{TeraLib has done loading!}')
 else

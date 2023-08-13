@@ -9,6 +9,8 @@ function TeraLib.Chat( text, color )
 end
 
 function TeraLib.Notify( type, text, name, time )
+	if !time then time = 0 end
+	if !name then name = '' end
 
 	if type == 'prg' then
 		notification.AddProgress(name, text)
@@ -18,7 +20,7 @@ function TeraLib.Notify( type, text, name, time )
 		return
 	end
 
-	types = {
+	local types = {
 		gen = {NOTIFY_GENERIC, TeraLib.Sounds.GMOD_GENERIC},
 		err = {NOTIFY_ERROR, TeraLib.Sounds.GMOD_ERROR},
 		und = {NOTIFY_UNDO, TeraLib.Sounds.GMOD_GENERIC},
@@ -27,7 +29,7 @@ function TeraLib.Notify( type, text, name, time )
 	}
 
 	if types[type] ~= nil then
-		type = types[type]
+		local type = types[type]
 		notification.AddLegacy(text, type[1], 5)
 		surface.PlaySound(type[2])
 	end

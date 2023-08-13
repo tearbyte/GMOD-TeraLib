@@ -1,0 +1,7 @@
+Sprite
+{
+	$basetexture "teralib/logo"
+
+	$spriteorientation parallel_upright
+	$spriteorigin "[0.5 0.5]"
+}
