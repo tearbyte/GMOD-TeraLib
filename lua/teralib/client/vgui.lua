@@ -8,7 +8,7 @@ function TeraLib.vgui.Base( element, data )
  	if data.color then element:SetColor(data.color) end
 	if data.dock then for _, v in ipairs(data.dock) do element:Dock(v) end end
 	if data.size then element:SetSize(data.size[1], data.size[2]) else element:SetSize(50, 20) end
-	if data.pos then element:SetPos(pos[1], pos[2]) end
+	if data.pos then element:SetPos(data.pos[1], data.pos[2]) end
 	if data.center then element:Center() end
 	if data.dockmargin then element:DockMargin(data.dockmargin[1], data.dockmargin[2], data.dockmargin[3], data.dockmargin[4]) end
 end
@@ -23,7 +23,7 @@ end
 function TeraLib.vgui.Frame( data )
 	local frame = vgui.Create('DFrame', data.parent)
 	TeraLib.vgui.Base( frame, data )
-	if data.popup then panel:MakePopup() end
+	if data.popup then frame:MakePopup() end
 	return frame
 end	
 
