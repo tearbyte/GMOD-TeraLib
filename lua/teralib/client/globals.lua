@@ -14,7 +14,7 @@ function TeraLib.Notify( type, text, name, time )
 
 	if type == 'prg' then
 		notification.AddProgress(name, text)
-		if time > 0 then timer.Simple(time, function ()	notification.Kill(name)	end)
+		if time > 0 then timer.Simple(time, function ()	notification.Kill(name)	end) end
 		return
 	end
 
