@@ -1,5 +1,5 @@
 TeraLib = TeraLib or {}
-TeraLib.net = net
+TeraLib.net = {}
 
 util.AddNetworkString('teralib_notify')
 

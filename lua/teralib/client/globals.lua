@@ -14,9 +14,7 @@ function TeraLib.Notify( type, text, name, time )
 
 	if type == 'prg' then
 		notification.AddProgress(name, text)
-		timer.Simple(time, function ()
-			notification.Kill(name)
-		end)
+		if time > 0 then timer.Simple(time, function ()	notification.Kill(name)	end)
 		return
 	end
 
@@ -33,5 +31,6 @@ function TeraLib.Notify( type, text, name, time )
 		notification.AddLegacy(text, type[1], 5)
 		surface.PlaySound(type[2])
 	end
+
 
 end

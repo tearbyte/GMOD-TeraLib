@@ -1,5 +1,5 @@
 TeraLib = TeraLib or {}
-TeraLib.net = net
+TeraLib.net = {}
 
 net.Receive('teralib_notify', function()
 	if net.ReadBit() == 0 then
