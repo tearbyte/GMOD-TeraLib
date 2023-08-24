@@ -14,10 +14,12 @@ function TeraLib.vgui.Base( element, data )
 end
 
 function TeraLib.vgui.PoweredBy( data )
+	data.size = {1, 70}
+	data.background = data.background or Color(88,88,88)
 	local panel = TeraLib.vgui.Panel( data )
 	TeraLib.vgui.Image {parent = panel, dock = {LEFT}, dockmargin = {3, 3, 3, 3}, image = "teralib/logo", size = {64, 64}}
-	TeraLib.vgui.Label {parent = panel, dock = {TOP}, dockmargin = {0, 3, 3, 3}, text = data.poweredby}
-	TeraLib.vgui.Button {parent = panel, dock = {BOTTOM}, dockmargin = {0, 3, 3, 3}, text = data.download, doclick = function() gui.OpenURL('https://steamcommunity.com/sharedfiles/filedetails/?id=3013984464') end}
+	TeraLib.vgui.Label {parent = panel, dock = {TOP}, dockmargin = {0, 3, 3, 3}, text = "Powered by TeraLib"}
+	TeraLib.vgui.Button {parent = panel, dock = {BOTTOM}, dockmargin = {0, 3, 3, 3}, text = "Download", doclick = function() gui.OpenURL('https://steamcommunity.com/sharedfiles/filedetails/?id=3013984464') end}
 end
 
 function TeraLib.vgui.Frame( data )
