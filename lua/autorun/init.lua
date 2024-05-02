@@ -1,4 +1,5 @@
 if SERVER then
+	resource.AddWorkshop( '3013984464' )
 	print('{TeraLib initiating serverside...}')
 	print('{Loading SERVERSIDE files...}')
 	for k, v in pairs(file.Find('teralib/server/*', 'LUA')) do
