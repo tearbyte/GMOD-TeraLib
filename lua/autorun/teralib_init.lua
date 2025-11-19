@@ -15,6 +15,7 @@ local client_patches = {
 	'lang',
 	'net',
 	'vgui',
+	'draw'
 }
 
 local server_patches = {
@@ -28,31 +29,37 @@ local shared_patches = {
 	'util'
 }
 
+TeraLib = {}
+
+function TeraLib.PrintLoad( str )
+	print( '| ' .. ljust( str, 50 ) .. '|' )
+end
+
 print( '/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯ TeraLib Loading ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\\')
 if SERVER then
 	resource.AddWorkshop( '3013984464' )
 
-	print( '| Loading SERVERSIDE files...                       |' )
+	TeraLib.PrintLoad( 'Loading SERVERSIDE files...' )
 
 	for k, v in pairs( server_patches ) do
+		TeraLib.PrintLoad( 'server/' .. v .. '.lua' )
 		load( 'server/' .. v, false )
-		print( '| ' .. ljust( 'server/' .. v .. '.lua', 50 ) .. '|' )
 	end
 
-	print( '|                                                   |')
+	TeraLib.PrintLoad( '' )
 end
 
-print( '| ' .. ( CLIENT and 'Loading' or 'Sending' ) ..' CLIENTSIDE files...                       |' )
+TeraLib.PrintLoad( ( CLIENT and 'Loading' or 'Sending' ) ..' CLIENTSIDE files...' )
 for k, v in pairs( client_patches ) do
+	TeraLib.PrintLoad( 'client/' .. v .. '.lua' )
 	load( 'client/' .. v, true )
-	print( '| ' .. ljust( 'client/' .. v .. '.lua', 50 ) .. '|' )
 end
 
-print( '|                                                   |')
-print( '| Loading SHARED files...                           |' )
+TeraLib.PrintLoad( '' )
+TeraLib.PrintLoad( 'Loading SHARED files...' )
 for k, v in pairs( shared_patches ) do
+	TeraLib.PrintLoad( v .. '.lua' )
 	load( v, true )
-	print( '| ' .. ljust( v .. '.lua', 50 ) .. '|' )
 end
 
 print( '\\_________________ TeraLib ready! __________________/')
