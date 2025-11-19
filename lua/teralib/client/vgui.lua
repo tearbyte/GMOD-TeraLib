@@ -61,14 +61,14 @@ local function reload_colors()
 
 	if !data then return end
 
-	TeraLib.vgui.Base =	data.cur.Base
-	TeraLib.vgui.SecondBase = data.cur.SecondBase
-	TeraLib.vgui.ButtonColor = data.cur.ButtonColor
-	TeraLib.vgui.Hover = data.cur.Hover
-	TeraLib.vgui.Fraction = data.cur.Fraction
-	TeraLib.vgui.ScrollPanelColor = data.cur.ScrollPanelColor
-	TeraLib.vgui.ScrollHead = data.cur.ScrollHead
-	TeraLib.vgui.Selection = data.cur.Selection
+	TeraLib.vgui.Base =	data.cur.Base or TeraLib.vgui.Base
+	TeraLib.vgui.SecondBase = data.cur.SecondBase or TeraLib.vgui.SecondBase
+	TeraLib.vgui.ButtonColor = data.cur.ButtonColor or TeraLib.vgui.ButtonColor
+	TeraLib.vgui.Hover = data.cur.Hover or TeraLib.vgui.Hover
+	TeraLib.vgui.Fraction = data.cur.Fraction or TeraLib.vgui.Fraction
+	TeraLib.vgui.ScrollPanelColor = data.cur.ScrollPanelColor or TeraLib.vgui.ScrollPanelColor
+	TeraLib.vgui.ScrollHead = data.cur.ScrollHead or TeraLib.vgui.ScrollHead
+	TeraLib.vgui.Selection = data.cur.Selection or TeraLib.vgui.Selection
 	TeraLib.vgui.Enable = data.cur.Enable or TeraLib.vgui.Enable
 	TeraLib.vgui.Disable = data.cur.Disable or TeraLib.vgui.Disable
 	TeraLib.vgui.PresetData = data
@@ -121,7 +121,7 @@ function TeraLib.vgui.Settings()
 	basecolor1_c:SetPos(10, 90) 						basecolor2_c:SetPos(250, 90)
 	basecolor1_c:SetPalette(false) 						basecolor2_c:SetPalette(false)
 	basecolor1_c:SetAlphaBar(false)						basecolor2_c:SetAlphaBar(false)
-	basecolor1_c:SetColor(TeraLib.vgui.Base) 		basecolor2_c:SetColor(TeraLib.vgui.SecondBase)
+	basecolor1_c:SetColor(TeraLib.vgui.Base) 			basecolor2_c:SetColor(TeraLib.vgui.SecondBase)
 	function basecolor1_c:ValueChanged( color )
 		basecolor1 = color
 	end
