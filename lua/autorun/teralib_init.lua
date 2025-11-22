@@ -20,7 +20,8 @@ local client_patches = {
 
 local server_patches = {
 	'globals',
-	'net'
+	'net',
+	'db'
 }
 
 local shared_patches = {
@@ -63,3 +64,5 @@ for k, v in pairs( shared_patches ) do
 end
 
 print( '\\_________________ TeraLib ready! __________________/')
+
+hook.Run( 'TeraLib:Loaded' )
