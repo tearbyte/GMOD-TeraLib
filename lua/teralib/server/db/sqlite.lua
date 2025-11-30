@@ -1,4 +1,4 @@
-local DRIVER = {}
+local DRIVER = { _type = 1 }
 DRIVER.__index = DRIVER
 
 function DRIVER:New( config )
@@ -46,8 +46,20 @@ function DRIVER:QuerySync( query, ... )
 	-- Well, for SQLite in GMOD there's nothing else than just 'querysync'
 	local query = self:BuildQuery( query, { ... } )
 	local resp = sql.Query( query )
-	print( query, resp )
 	return resp
+end
+
+function DRIVER:QueryMany( query, args, callback )
+
+	local queries = { 'BEGIN;' }
+	for _, row in ipairs(args) do
+		table.insert( queries, self:BuildQuery( query, row ) .. ';' )
+	end
+	table.insert( queries, 'COMMIT;' )
+
+	local queryString = table.concat( queries, ' ' )
+
+	self:KAQuery( queryString, nil, callback )
 end
 
 function DRIVER:Disconnect()
@@ -58,7 +70,6 @@ function DRIVER:Escape( str )
 end
 
 function DRIVER:CreateTransaction()
-	
 	return
 end
 

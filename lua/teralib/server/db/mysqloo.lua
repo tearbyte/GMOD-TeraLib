@@ -2,7 +2,7 @@
 require( 'mysqloo' )
 local _driver = mysqloo
 
-local DRIVER = {}
+local DRIVER = { _type = 2 }
 DRIVER.__index = DRIVER
 
 function DRIVER:New( config )
@@ -125,6 +125,19 @@ function DRIVER:QuerySync( query, ... ) -- Really. Don't use that. This is just 
 	query_:wait(true)
 
 	return query_:getData()
+end
+
+function DRIVER:QueryMany( query, args, callback )
+
+	local queries = { 'START TRANSACTION;' }
+	for _, row in ipairs(args) do
+		table.insert( queries, self:BuildQuery( query, row ) .. ';' )
+	end
+	table.insert( queries, 'COMMIT;' )
+
+	local queryString = table.concat( queries, ' ' )
+
+	self:KAQuery( queryString, nil, callback )
 end
 
 function DRIVER:Disconnect()
