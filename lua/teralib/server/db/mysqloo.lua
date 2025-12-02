@@ -2,8 +2,9 @@
 require( 'mysqloo' )
 local _driver = mysqloo
 
-local DRIVER = { _type = 2 }
-DRIVER.__index = DRIVER
+local DRIVER = include( 'teralib/server/db/base.lua' )
+
+DRIVER._type = 2
 
 function DRIVER:New( config )
 	local obj = {
@@ -29,27 +30,6 @@ function DRIVER:Connect()
 
 	self.connection:setAutoReconnect( true )
 	self.connection:connect()
-end
-
-function DRIVER:BuildQuery( query, args )
-	local count = 0
-
-	if #args < select( 2, query:gsub( '?', '' ) ) then
-		print( 'TeraLib WARNING: BuildQuery: Not enough arguments for placeholders!' )
-	end
-
-	local q = query:gsub( '?', function()
-		count = count + 1
-		local v = args[count]
-
-		if v == nil then return 'NULL' end
-		if isnumber( v ) then return tostring( v ) end
-		if isbool( v ) then return v and '1' or '0' end
-
-		return "'" .. self:Escape( tostring( v ) ) .. "'"
-	end)
-
-	return q
 end
 
 function DRIVER:KAQuery( query, args, callback, attempts ) -- Keepalive query, tries a few times because sometime DB conn succ
@@ -127,25 +107,13 @@ function DRIVER:QuerySync( query, ... ) -- Really. Don't use that. This is just 
 	return query_:getData()
 end
 
-function DRIVER:QueryMany( query, args, callback )
-
-	local queries = { 'START TRANSACTION;' }
-	for _, row in ipairs(args) do
-		table.insert( queries, self:BuildQuery( query, row ) .. ';' )
-	end
-	table.insert( queries, 'COMMIT;' )
-
-	local queryString = table.concat( queries, ' ' )
-
-	self:KAQuery( queryString, nil, callback )
-end
-
 function DRIVER:Disconnect()
 	self.connection:disconnect( true )
 end
 
-function DRIVER:Escape( str )
-	return self.connection:escape( str )
+function DRIVER:Escape( str, forcenormal )
+	local quotes = forcenormal and '\'' or '`'
+	return quotes .. self.connection:escape( str ) .. quotes
 end
 
 function DRIVER:CreateTransaction()

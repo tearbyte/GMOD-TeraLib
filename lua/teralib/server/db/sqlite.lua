@@ -1,5 +1,7 @@
-local DRIVER = { _type = 1 }
-DRIVER.__index = DRIVER
+
+local DRIVER = include( 'teralib/server/db/base.lua' )
+
+DRIVER._type = 1
 
 function DRIVER:New( config )
 	local obj = {}
@@ -7,27 +9,7 @@ function DRIVER:New( config )
 end
 
 function DRIVER:Connect()
-end
-
-function DRIVER:BuildQuery( query, args )
-	local count = 0
-
-	if #args < select( 2, query:gsub( '?', '' ) ) then
-		print( 'TeraLib WARNING: BuildQuery: Not enough arguments for placeholders!' )
-	end
-
-	local q = query:gsub( '?', function()
-		count = count + 1
-		local v = args[count]
-
-		if v == nil then return 'NULL' end
-		if isnumber( v ) then return tostring( v ) end
-		if isbool( v ) then return v and '1' or '0' end
-
-		return self:Escape( tostring( v ) )
-	end)
-
-	return q
+	print( 'TeraLib: SQLite is always ready' )
 end
 
 function DRIVER:KAQuery( query, args, callback )
@@ -49,28 +31,16 @@ function DRIVER:QuerySync( query, ... )
 	return resp
 end
 
-function DRIVER:QueryMany( query, args, callback )
-
-	local queries = { 'BEGIN;' }
-	for _, row in ipairs(args) do
-		table.insert( queries, self:BuildQuery( query, row ) .. ';' )
-	end
-	table.insert( queries, 'COMMIT;' )
-
-	local queryString = table.concat( queries, ' ' )
-
-	self:KAQuery( queryString, nil, callback )
-end
-
-function DRIVER:Disconnect()
-end
-
 function DRIVER:Escape( str )
 	return sql.SQLStr( str )
 end
 
-function DRIVER:CreateTransaction()
-	return
-end
+sql.m_strError = nil -- This is required to invoke __newindex
+
+setmetatable( sql, { __newindex = function( table, k, v )
+	if ( k == "m_strError" and v and #v > 0 ) then
+		print( 'TeraLib ERROR: Query failed to execute - ' .. v )
+	end
+end } )
 
 return DRIVER

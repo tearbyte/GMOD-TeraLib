@@ -1,5 +1,73 @@
 
-TeraLib.DB = { Registered = {}, Types = { SQLite = 1, MySQL = 2 } }
+TeraLib.DB = {
+	Registered = {},
+	Types = { SQLite = 1, MySQL = 2 },
+	-- If we need to transform...
+	DataTypes = {
+		-- SQLite
+		{
+			BeginWord = 'BEGIN;',
+
+			INT = 'INTEGER',
+			INTEGER = 'INTEGER',
+			TINYINT = 'INTEGER',
+			SMALLINT = 'INTEGER',
+			MEDIUMINT = 'INTEGER',
+			BIGINT = 'INTEGER',
+			YEAR = 'INTEGER',
+			INT1 = 'INTEGER',
+			INT2 = 'INTEGER',
+			INT3 = 'INTEGER',
+			INT4 = 'INTEGER',
+			INT8 = 'INTEGER',
+
+			CHARACTER = 'TEXT',
+			VARCHAR = 'TEXT',
+			VARYING = 'TEXT',
+			NCHAR = 'TEXT',
+			NVARCHAR = 'TEXT',
+			TEXT = 'TEXT',
+			CLOB = 'TEXT',
+			DATE = 'TEXT',
+			TIME = 'TEXT',
+			DATETIME = 'TEXT',
+			TIMESTAMP = 'TEXT',
+			LONGTEXT = 'TEXT',
+
+			BLOB = 'BLOB',
+			LONGBLOB = 'BLOB',
+			JSON = 'BLOB',
+			BINARY = 'BLOB',
+
+			REAL = 'REAL',
+			DOUBLE = 'REAL',
+			FLOAT = 'REAL',
+
+			NUMERIC = 'NUMERIC',
+			DECIMAL = 'NUMERIC',
+			BOOLEAN = 'NUMERIC',
+		},
+		-- MySQL
+		{
+			BeginWord = 'START TRANSACTION;',
+
+			BOOL = 'TINYINT',
+			BOOLEAN = 'TINYINT',
+			CHARACTER = 'VARCHAR',
+			FIXED = 'DECIMAL',
+			FLOAT4 = 'FLOAT',
+			FLOAT8 = 'DOUBLE',
+			INT1 = 'TINYINT',
+			INT2 = 'SMALLINT',
+			INT3 = 'MEDIUMINT',
+			INT4 = 'INT',
+			INT8 = 'BIGINT',
+			LONG = 'MEDIUMTEXT',
+			MIDDLEINT = 'MEDIUMINT',
+			NUMERIC = 'DECIMAL',
+		},
+	}
+}
 
 function TeraLib.DB:GetDriver()
 	return self._activeDBDriver
@@ -23,7 +91,7 @@ function TeraLib.DB:GetType()
 	return self.Type
 end
 
-local hasMySQLoo = util.IsBinaryModuleInstalled( 'mysqloo' )
+local hasMySQLoo = false --util.IsBinaryModuleInstalled( 'mysqloo' )
 TeraLib.PrintLoad( 'MySQLoo is ' .. ( hasMySQLoo and '' or 'NOT ') .. 'installed' )
 
 if hasMySQLoo then
